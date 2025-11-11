@@ -6,16 +6,6 @@ local Technology = atom.util.Technology
 -- Circuit board
 Recipe("circuit-board").addIngredient("phenolic-board")
 
--- Electronic circuit
-Recipe("electronic-circuit").addIngredient("basic-electronic-components", 2)
-Recipe("electronic-circuit").addIngredient("basic-circuit-board", 2)
-Recipe("electronic-circuit-in-laser-mill").addIngredient("basic-electronic-components", 2)
-Recipe("electronic-circuit-in-laser-mill").addIngredient("basic-circuit-board", 2)
-Recipe("electronic-circuit-handcraft-only").addIngredient("basic-electronic-components", 10)
-Recipe("electronic-circuit-handcraft-only").addIngredient("basic-circuit-board", 2)
-Recipe("electronic-circuit-handcraft-only-in-laser-mill").addIngredient("basic-electronic-components", 10)
-Recipe("electronic-circuit-handcraft-only-in-laser-mill").addIngredient("basic-circuit-board", 2)
-
 -- Electronic components
 local electronic_components = Recipe("kr-electronic-components")
 electronic_components.removeIngredient("plastic-bar")
@@ -76,10 +66,10 @@ Recipe("construction-robot").replaceIngredient("electronic-circuit", 2)
 -- Processing unit
 Recipe("processing-unit").replaceIngredient("advanced-electronic-components", 2)
 Recipe("processing-unit-in-laser-mill").replaceIngredient("advanced-electronic-components", 2)
-Recipe("processing-unit").removeIngredient("solder")
-Recipe("processing-unit").replaceIngredient("solder", 6)
+Recipe("processing-unit").removeIngredient("solder") -- Remove duplicate ingredient
+Recipe("processing-unit").addIngredient("solder", 6)
 Recipe("processing-unit-in-laser-mill").removeIngredient("solder")
-Recipe("processing-unit-in-laser-mill").replaceIngredient("solder", 6)
+Recipe("processing-unit-in-laser-mill").addIngredient("solder", 6)
 
 -- Assembling machine 1
 local assembling_machine_1 = Recipe("assembling-machine-1")
@@ -141,6 +131,9 @@ Recipe("gimbaled-thruster").removeIngredient("temperature-sensor")
 
 -- Radar
 Recipe("radar").replaceIngredient("basic-circuit-board", "kr-automation-core", 4)
+local radar_tech = Technology("radar")
+radar_tech.removeIngredient("chemical-science-pack")
+radar_tech.replacePrerequisite("chemical-science-pack", "logistic-science-pack")
 
 -- Rocket control unit
 local rocket_control_unit = Recipe("rocket-control-unit")
@@ -238,6 +231,8 @@ local silica_processing = Technology("silica-processing")
 silica_processing.replacePrerequisite("kr-fluids-chemistry", "logistic-science-pack")
 silica_processing.addIngredient("logistic-science-pack")
 
+Technology("sulfur-processing").removeRecipe("kr-nitric-acid")
+
 data.raw.technology["bismanol"].ignore_tech_cost_multiplier = true
 data.raw.technology["electricity"].ignore_tech_cost_multiplier = true
 data.raw.technology["fuel-processing"].ignore_tech_cost_multiplier = true
@@ -249,7 +244,6 @@ data.raw.technology["electronics"].ignore_tech_cost_multiplier = false
 Technology("basic-chemistry").addPrerequisite("automation-science-pack")
 Technology("basic-logistics").addPrerequisite("burner-mechanics")
 Technology("titanium-processing").addPrerequisite("lubricant")
-Technology("military").addPrerequisite("copper-processing")
 Technology("mangalloy").addPrerequisite("automation-science-pack")
 Technology("landfill").addPrerequisite("automation-science-pack")
 Technology("worker-robots-speed-2").addPrerequisite("chemical-science-pack")
